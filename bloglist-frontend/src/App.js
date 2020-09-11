@@ -19,13 +19,7 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
-  const [wantBlog, setWantBlog] = useState(false)
-
-
-
+  //const [wantBlog, setWantBlog] = useState(false)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -62,8 +56,9 @@ const App = () => {
       />
     </Togglable>
   )
-
-  const blogForm = () => (<>
+  const blogForm = () => (
+      <BlogForm   createBlog={addBlog} />)
+  /*const blogForm = () => (<>
     {wantBlog ?
       <BlogForm
         title={title}
@@ -72,18 +67,12 @@ const App = () => {
         handleTitleChange={({ target }) => setTitle(target.value)}
         handleAuthorChange={({ target }) => setAuthor(target.value)}
         handleUrlChange={({ target }) => setUrl(target.value)}
-        handleSubmit={handleNewBlog} />
+        handleSubmit={addBlog} />
       : <button onClick={() => setWantBlog(!wantBlog)}>Create a blog!</button>
     }</>)
+*/
+  const addBlog = (blogObject) => {
 
-  const handleNewBlog = (event) => {
-    event.preventDefault()
-    const blogObject = {
-      author: author,
-      title: title,
-      url: url,
-
-    }
     try {
       blogService
         .create(blogObject)
@@ -92,24 +81,18 @@ const App = () => {
 
         })
 
-      setSuccessMessage('Successfully added blog: ' + title)
-      setWantBlog(!wantBlog)
+      setSuccessMessage('Successfully added blog: ' + blogObject.title)
+    //  setWantBlog(!wantBlog)
       setTimeout(() => {
         setSuccessMessage(null)
       }, 5000)
 
     } catch (e) {
-      console.log('error in adding blog: ', e)
       setErrorMessage("adding blog failed")
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
     }
-
-    setTitle("")
-    setAuthor('')
-    setUrl("")
-
 
   }
 
@@ -139,7 +122,7 @@ const App = () => {
   const logout = () => {
     // event.preventDefault()
     //window.localStorage.removeItem('loggedUser')
-    
+
     //or more powerful: 
     setUser(null)
     setUsername('')

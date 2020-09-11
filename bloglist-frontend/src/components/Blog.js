@@ -6,8 +6,8 @@ const style = {
   color: "purple",
   background: "lightgrey",
   display: "",
-  "border-style": "solid",
-  "border-radius": "20px",
+  "borderStyle": "solid",
+  "borderRadius": "20px",
 
 };
 
@@ -32,10 +32,10 @@ const Blog = ({ blog }) => {
 
   return (
     <div style={style}>
-      <p>{blog.title}<button onClick={() => setInfo(!info)}>info</button></p>
+      <p>{blog.title}, <b>author:</b> {blog.author}<button onClick={() => setInfo(!info)}>info</button></p>
       {info ?
         <>
-          <p>author: {blog.author}</p>
+
           <p>url: {blog.url}</p>
           <p>likes: {likes} <button disabled={likeButton} onClick={() => like()}>like!</button></p>
           <p>id: {blog._id}</p>
