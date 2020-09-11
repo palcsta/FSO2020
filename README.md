@@ -1,2 +1,2 @@
 # FSO2020
-Repository for FullStackOpen2020 (from part 5)
+Repository for FullStackOpen2020 (starting from part 5)
