@@ -46,7 +46,7 @@ const App = () => {
   }
 
   const loginForm = () => (
-    <Togglable buttonLabel='login'>
+    <Togglable buttonLabel='sign in'>
       <LoginForm
         username={username}
         password={password}
@@ -149,12 +149,12 @@ const App = () => {
           return -1;
         }
         return 0;
-      }).map(blog => <Blog key={blog.id} blog={blog} />
+      }).map(blog => <p><Blog key={blog.id} blog={blog} /></p>
 
       )}
 
 
-
+        <p href="fullstackopen.com">FullStackOpen 2020</p>
     </div>
   )
 
