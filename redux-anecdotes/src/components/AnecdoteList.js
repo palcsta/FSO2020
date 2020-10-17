@@ -1,30 +1,27 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { createAnecdote, vote } from '../reducers/anecdoteReducer'
-
+import {  vote } from '../reducers/anecdoteReducer'
+import { filterChange } from '../reducers/filterReducer'
 
 
 
 const AnecdoteList = () => {
 
-    const anecdotes = useSelector(state => state)
+    const anecdotes = useSelector(state => state.anecdotes)
     const dispatch = useDispatch()
-    
 
-    
+
+
 
     const voter = (id) => {
         const anecdoteToVote = anecdotes.find(n => n.id === id)
-        const changedAnecdote = {
-            ...anecdoteToVote,
-            votes: anecdoteToVote.votes++
-        }
-
+        dispatch(filterChange('VOTE'))
+        anecdoteToVote.votes++
         console.log("App:20:voter method: ", dispatch(vote(id)))
 
 
     }
-    
+
     return (
         <div>
 
@@ -53,4 +50,4 @@ const AnecdoteList = () => {
     )
 }
 
-export default AnecdoteList
+export default AnecdoteList 
