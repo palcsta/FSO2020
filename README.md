@@ -1,5 +1,5 @@
-#[FSO2020](https://fullstackopen.com/)
-Repository for FullStackOpen2020 (starting from part 5)
+#FSO2020
+Repository for [FullStackOpen2020](https://fullstackopen.com/) (starting from part 5)
 # Exercises
 part 5: 22 done (all done)
 
