@@ -1,24 +1,22 @@
-
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux' 
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import anecdoteReducer from './anecdoteReducer'
 import filterReducer from './filterReducer'
+import notificationReducer  from './notificationReducer'
+
 
 const reducer = combineReducers({
-  anecdotes : anecdoteReducer,
+  anecdotes: anecdoteReducer,
+  notifications: notificationReducer,
   filter: filterReducer
 })
 
 const store = createStore(
   reducer,
-  composeWithDevTools())
-
-
- // store.subscribe(() => console.log("in store: ",store.getState()))
-  //store.dispatch(filterReducer('filter_reducerrr'))
-  //store.dispatch(createNote('combineReducers forms one reduces from many simple reducers'))
+  composeWithDevTools(
+    applyMiddleware(thunk)
+  ))
+  
 
 export default store

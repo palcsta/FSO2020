@@ -1,24 +1,26 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {  vote } from '../reducers/anecdoteReducer'
+import { vote } from '../reducers/anecdoteReducer'
 import { filterChange } from '../reducers/filterReducer'
 
-
+import { setNotification, clearNotification } from '../reducers/notificationReducer'
 
 const AnecdoteList = () => {
 
     const anecdotes = useSelector(state => state.anecdotes)
     const dispatch = useDispatch()
 
-
-
-
     const voter = (id) => {
-        const anecdoteToVote = anecdotes.find(n => n.id === id)
         dispatch(filterChange('VOTE'))
+        const anecdoteToVote = anecdotes.find(n => n.id === id)
         anecdoteToVote.votes++
-        console.log("App:20:voter method: ", dispatch(vote(id)))
+        dispatch(vote(id))
+        dispatch(setNotification(`you voted '${anecdoteToVote.content}'`, 3))
+        
+      /*  setTimeout(() => {
+            dispatch(clearNotification())
 
+        }, 1 * 1000)*/
 
     }
 
@@ -34,6 +36,7 @@ const AnecdoteList = () => {
                 }
                 return 0;
             }).map(anecdote =>
+
                 <div key={anecdote.id}>
                     <div>
                         {anecdote.content}
@@ -43,7 +46,8 @@ const AnecdoteList = () => {
                         <button onClick={() => voter(anecdote.id)}>vote</button>
                     </div>
                 </div>
-            )}
+            )
+            }
 
 
         </div>
