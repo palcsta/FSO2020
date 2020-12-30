@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from "react-router-dom"
-import { useField } from '../hooks'
+import { useField, useRm } from '../hooks'
 
 const CreateNew = (props) => {
     const content = useField('content')
@@ -12,9 +12,11 @@ const CreateNew = (props) => {
         props.addNew({ content: content.value, author: author.value, info: info.value, votes: 0 })
     }
     const reset = () => {
-        info.clear()
-        author.clear()
-        content.clear()
+        info.reset()
+        author.reset()
+        content.reset()
+        
+
     }
 
     return (
@@ -23,15 +25,15 @@ const CreateNew = (props) => {
             <form onSubmit={handleSubmit}>
                 <div>
                     content
-            <input {...content} />
+            <input {...content} reset={0}  />
                 </div>
                 <div>
                     author
-            <input {...author} />
+            <input {...author}  reset={0}/>
                 </div>
                 <div>
                     url for more info
-            <input {...info} />
+            <input {...info}  reset={0}/>
                 </div>
                 <button onClick={handleSubmit}><Link to="/">add</Link></button>
 
