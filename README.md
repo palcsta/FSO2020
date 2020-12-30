@@ -4,4 +4,4 @@ Repository for [FullStackOpen2020](https://fullstackopen.com/) (starting from pa
 
 <p>part 5: 22 done</p>
 <p>part 6: 19 done (without 12 and 21)</p>
-<p>part 7: 1-5</p>
+<p>part 7: 1-6 done (without 7)</p>
