@@ -5,13 +5,18 @@ import { useField } from '../hooks'
 const CreateNew = (props) => {
     const content = useField('content')
     const author = useField('author')
-    const info = useState('info')
+    const info = useField('info')
 
-    const handleSubmit = (e) => {
+    const handleSubmit = () => {
         //e.preventDefault()       
-        props.addNew({content: content.value, author: author.value, info: info.value, votes: 0})    
-
+        props.addNew({ content: content.value, author: author.value, info: info.value, votes: 0 })
     }
+    const reset = () => {
+        info.clear()
+        author.clear()
+        content.clear()
+    }
+
     return (
         <div>
             <h2>create a new anecdote</h2>
@@ -29,7 +34,9 @@ const CreateNew = (props) => {
             <input {...info} />
                 </div>
                 <button onClick={handleSubmit}><Link to="/">add</Link></button>
+
             </form>
+            <button onClick={() => reset()}>reset</button>
         </div>
     )
 
