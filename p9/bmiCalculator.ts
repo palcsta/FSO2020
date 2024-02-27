@@ -9,8 +9,9 @@ Obese (Class I) 					30.0 – 34.9
 Obese (Class II) 					35.0 – 39.9 	
 Obese (Class III) 					≥ 40.0 	
 */
+
 export function calculateBmi(h: number, w: number): string {
-	const bmi: number = w/(h/100)**2;
+	const bmi: number = Number((w/(h/100)**2).toFixed(1));
 	if(bmi < 16){
 		return "Underweight (Severe thinness)";
 	}
@@ -35,7 +36,7 @@ export function calculateBmi(h: number, w: number): string {
 	if(bmi >= 40){
 		return "Obese (Class III)";
 	}
-	return "Invalid input";
+	return "Invalid input:"+bmi;
 }
 if(process.argv.length == 4){
 	try{
