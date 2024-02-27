@@ -1,5 +1,9 @@
 #ignore node_modules
+/node_modules
+node_modules/
 node_modules
+
+
 #ignore .env
 .env
 package-lock.json
