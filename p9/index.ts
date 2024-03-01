@@ -4,7 +4,7 @@ import { calculateExercises } from "./exerciseCalculator";
 import express, { Request, Response } from 'express';
 
 const app = express();
-
+app.use(express.json());
 app.get('/hello', (_req: Request, res: Response) => {
 	res.send('Hello Full Stack!');
 });
@@ -24,20 +24,27 @@ app.get('/bmi', (_req: Request, res: Response) => {
 		bmi: calculateBmi(Number(_req.query.height),Number(_req.query.weight))});
 	//res.send(calculateBmi(_req.query.height,_req.query.weight));
 });
-
-app.post('/exercises', (_req, res) => {
+//test command:
+//curl -X POST -H "Content-Type: application/json" -d '{"daily_exercises": [1, 0, 2, 0, 3, 0, 2.5],"target": 2.5}' http://localhost:3003/exercises
+app.post('/exercises', (req, res) => {
 	//if parameters are missing return error with status 400 and json message telling parameters missing
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-	if(!_req.body.daily_exercises || !_req.body.target){
+	//print content of the request
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+
+	//console.log(req.body);
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+	if(!req.body.daily_exercises || !req.body.target){
 		return res.status(400).send({error: "parameters missing"});
 	}
-
+	//console.log(req.body)
 	try {
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-		const { daily_exercises, target } = _req.body;
+		const { daily_exercises, target } = req.body;
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		const result = calculateExercises(daily_exercises, target);
 		//res.send({ "result": result });
+		console.log(result);
 		return res.status(200).json(result);
 	
 	} catch (e) {
