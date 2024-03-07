@@ -1,5 +1,8 @@
 //create datatype Patient from 'data/patients.ts' without ssn 
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface Entry {
+}
 interface Patient {
   id: string;
   name: string;
@@ -7,6 +10,7 @@ interface Patient {
   ssn: string;
   gender: string;
   occupation: string;
+  entries: Entry[];
 }
 
 interface Diagnosis {
@@ -39,7 +43,7 @@ const getPatients = (): Patient[] => {
   return patients;
 };
 */
-export type NonSensitivePatient = Omit<Patient, 'ssn'>;
+export type NonSensitivePatient = Omit<Patient, 'ssn' | 'entries'>;
 const getNonSensitivePatients = (): NonSensitivePatient[] => {
     return patients.map(({id, name, dateOfBirth, gender,  occupation }) => ({
       id, name, dateOfBirth, gender,  occupation  
@@ -67,11 +71,11 @@ app.get('/api/patients', (_req, res) => {
 
 
 const addPatient = (
-  id: string,  name: string,  dateOfBirth: string,  ssn: string,  gender: string,  occupation: string,
+  id: string,  name: string,  dateOfBirth: string,  ssn: string,  gender: string,  occupation: string, entries: Entry[]
   ): Patient => {
 
   const newPatientEntry = {
-    id, name, dateOfBirth,ssn, gender,  occupation,
+    id, name, dateOfBirth,ssn, gender,  occupation,entries
   };
 
   patients.push(newPatientEntry);
@@ -99,27 +103,56 @@ const isDate = (date: string): boolean => {
 
 app.post('/api/patients', (_req, res) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { name, dateOfBirth,ssn, gender,  occupation } = _req.body;
+  const { name, dateOfBirth,ssn, gender,  occupation, entries } = _req.body;
   if (!name || !isString(name) ||
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     !dateOfBirth || !isDate(dateOfBirth) ||
     !ssn || !isString(ssn) ||
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     !gender || !isGender(gender) ||
-    !occupation || !isString(occupation)) {
+    !occupation || !isString(occupation) ) {
       return res.status(400).json({ error: 'Invalid or missing data' });
   }
   const addedEntry = addPatient(
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    uid, name, dateOfBirth,ssn, gender , occupation,);
+    uid, name, dateOfBirth,ssn, gender , occupation, entries, );
 
   //res.json(addedEntry);  
   return res.json(addedEntry); // Add this line to fix the problem
 
 });
+
+//create endpoint at /api/patients/:id
+//return the patient with matching id or 404 if not found
+//include the patient's entries in the response
+app.get('/api/patients/:id', (req, res) => {
+  console.log('someone pinged /api/patients/:id');
+  const id = req.params.id;
+  const typedPatients = patients as Patient[];
+ 
+
+  const patient = typedPatients.find(p => p.id === id);
+  console.log(patient?.entries ? undefined : []);
+  if (patient) {
+    if (patient.entries) {
+      res.send({
+        ...patient,
+        entries: patient.entries
+      });
+    }else{
+      res.send({
+        ...patient,
+        entries: []
+      });
+
+
+    }
+  } else {
+    res.status(404).send('Patient not found');
+  }
   
-
-
-  app.listen(PORT, () => {
+}
+);
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
