@@ -132,7 +132,7 @@ app.get('/api/patients/:id', (req, res) => {
  
 
   const patient = typedPatients.find(p => p.id === id);
-  console.log(patient?.entries ? undefined : []);
+  //console.log(patient?.entries ? undefined : []);
   if (patient) {
     if (patient.entries) {
       res.send({
